@@ -1,0 +1,15 @@
+Feature: Parabank test scenarios
+
+
+Scenario: test user register
+	Given open browser and go to main page
+	When user click on the register link
+	Then user should navigate to register page
+	
+	
+	
+Scenario: register a user
+	Given user is on the register page
+	When user fill the register form
+	And click on register button
+	Then user should be registered 

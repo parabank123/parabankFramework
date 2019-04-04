@@ -1,0 +1,226 @@
+package com.parabank.stepDefinitions;
+
+import static org.junit.Assert.assertEquals;
+
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.parabank.pages.HomePage;
+import com.parabank.pages.RegisterPage;
+import com.parabank.pages.UserPage;
+import com.parabank.utilities.ConfigurationReader;
+import com.parabank.utilities.Driver;
+
+import cucumber.api.java.Before;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
+import io.cucumber.datatable.DataTable;
+
+
+
+
+
+
+public class UserRegisterStepDefs {
+
+	RegisterPage registerPage = new RegisterPage();
+	UserPage userPage = new UserPage();
+	HomePage homepage = new HomePage();
+	
+	String checkingAccountNumber="";
+	String savingAccountNumber="";
+	
+	@Given("open browser and go to main page")
+	public void open_browser_and_go_to_main_page() {		
+		String url = ConfigurationReader.getProperty("url");
+		Driver.getDriver().get(url);
+	}
+
+	@When("user click on the register link")
+	public void user_click_on_the_register_link() {		
+		
+		homepage.register.click();
+	  
+	}
+
+	@Then("user should navigate to register page")
+	public void user_should_navigate_to_register_page() {
+		String registesPagetitle = Driver.getDriver().getTitle();		
+		Assert.assertEquals(registesPagetitle, "ParaBank | Register for Free Online Account Access");  
+	}
+	
+	
+	@Given("user is on the register page")
+	public void user_is_on_the_register_page() {
+		String registerurl = ConfigurationReader.getProperty("registerURL");
+		Driver.getDriver().get(registerurl);
+	}
+	
+	@When("user fill the register form")
+	public void user_fill_the_register_form() {	
+//			
+//		List<Map<String, String>> list = dt.asMaps(String.class, String.class);
+//	      
+//	      System.out.println(list.get(0).get("First Name"));
+//	      System.out.println(list.get(0).get("Last Name"));
+		registerPage.firstName.sendKeys("First Name");
+		registerPage.lastName.sendKeys("Last Name");
+		registerPage.address.sendKeys("123 Main St");
+		registerPage.city.sendKeys("Houston");
+		registerPage.state.sendKeys("TX");
+		registerPage.zipCode.sendKeys("77057");
+		registerPage.phoneNumber.sendKeys("1234567891");
+		registerPage.SSN.sendKeys("123456");
+		registerPage.userName.sendKeys("U"+Math.random()*1000+1);
+		registerPage.password.sendKeys("001521");
+		registerPage.passwordConfirm.sendKeys("001521");
+		
+	
+		
+	}
+	
+	@When("click on register button")
+	public void click_on_register_button() {
+		registerPage.registerButton.click();
+	}
+
+	@Then("user should be registered")
+	public void user_should_be_registered() {
+		Assert.assertEquals(Driver.getDriver().getTitle(), "ParaBank | Customer Created"); 
+	}
+	
+	@Then("user should log out")
+	public void user_should_log_out() {
+		userPage.logout.click();
+			
+		//Assert.assertEquals(Driver.getDriver().getTitle(), "ParaBank | Welcome | Online Banking"); 	
+	}
+	
+	
+	@When("the user logs using {string} and {string}")
+	public void the_user_logs_using_and(String username, String password) {
+				
+	   homepage.userName.sendKeys(username);
+	   homepage.password.sendKeys(password);
+	   homepage.login.click();
+	}
+
+	@Then("the user should be logged in")
+	public void the_user_should_be_logged_in() {
+		System.out.println(Driver.getDriver().getTitle());
+		//Assert.assertEquals(Driver.getDriver().getTitle(), "ParaBank | Accounts Overview");  
+	}
+
+
+	@When("click on create account")
+	public void click_on_create_account() {
+	   userPage.openNewAccount.click();
+	     
+	}
+
+	@When("choose checking from dropdown list")
+	public void choose_checking_from_dropdown_list() throws InterruptedException {
+		userPage.selectChecking.click();
+		Thread.sleep(1000);
+	
+	}
+
+	@Then("click on open new checking account link")
+	public void click_on_open_new_account_link() throws InterruptedException {
+		 userPage.createNewAccount.click();
+		 
+		 Thread.sleep(2000);
+		 
+		 checkingAccountNumber=userPage.newAccountId.getText();
+	}
+
+//	@Then("new checking account should be created")
+//	public void new_checking_account_should_be_created() {
+//		
+//		
+//		String newAccountId = userPage.newAccountId.getText();	
+//		System.out.println(newAccountId);
+//	}
+
+	@When("choose saving from dropdown list")
+	public void choose_saving_from_dropdown_list() throws InterruptedException {
+		 userPage.selectSaving.click();
+		 Thread.sleep(1000);
+	}
+
+	@Then("click on open new saving account link")
+	public void click_on_open_new_saving_account_link() throws InterruptedException {
+		 userPage.createNewAccount.click();
+		 
+		 Thread.sleep(2000);
+		 
+		 savingAccountNumber =userPage.newAccountId.getText();
+	}
+	
+//	@Then("new saving account should be created")
+//	public void new_saving_account_should_be_created() {
+//	    System.out.println("test passed");
+//	}
+	
+	@When("click on transfer funds link")
+	public void click_on_transfer_funds_link() throws InterruptedException {
+	    userPage.transferFundsLink.click();
+	    Thread.sleep(2000);
+	    
+	}
+
+	@When("user enter transfer {string}")
+	public void user_enter_transfer(String amount) {
+	    userPage.transferAmount.sendKeys(amount);
+	}
+
+	@Then("user choose checking account number from dropdown list")
+	public void user_choose_checking_account_number_from_dropdown_list() throws InterruptedException {
+		Select accounts = new Select(userPage.fromAccountId);
+		accounts.selectByValue(checkingAccountNumber);
+		Thread.sleep(1000);
+	    
+	}
+
+	@Then("user choose saving account number from dropdown list")
+	public void user_choose_saving_account_number_from_dropdown_list() throws InterruptedException {
+		Select accounts = new Select(userPage.toAccountId);
+		accounts.selectByValue(savingAccountNumber);
+		Thread.sleep(1000);
+	}
+
+	@Then("user click on transfer button")
+	public void user_click_on_transfer_button() {
+	    userPage.transferButton.click();
+	}
+
+	@Then("the amount should be added to saving account")
+	public void the_amount_should_be_added_to_saving_account() {
+	   userPage.savingAccountBalance.getText();
+	}
+	
+	@Then("the amount should be added to checking account")
+	public void the_amount_should_be_added_to_checking_account() {
+		System.out.println("user checking balance"+userPage.checkingAccountBalance.getText());
+	}
+
+	@Then("checking account balance and saving account balance should be equal")
+	public void checking_account_balance_and_saving_account_balance_should_be_equal() {
+		
+		String checkingBalance=userPage.checkingAccountBalance.getText();
+		String savingBalance = userPage.savingAccountBalance.getText();
+	    Assert.assertEquals(checkingBalance,savingBalance);
+	}
+
+}

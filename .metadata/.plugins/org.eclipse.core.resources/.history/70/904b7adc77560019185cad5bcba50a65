@@ -1,0 +1,21 @@
+package com.parabank.runner;
+
+import org.junit.runner.RunWith;
+import cucumber.api.CucumberOptions;
+import cucumber.api.junit.Cucumber;
+
+@RunWith(Cucumber.class)
+@CucumberOptions(
+		tags = "@Test",
+		features = "features",
+		glue = "com/parabank/stepDefinitions",
+		dryRun = false
+		)
+
+
+
+
+public class runner {
+	
+
+}

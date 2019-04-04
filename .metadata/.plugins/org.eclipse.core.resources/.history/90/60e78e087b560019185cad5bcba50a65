@@ -1,0 +1,33 @@
+package com.parabank.pages;
+
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+import com.parabank.utilities.Driver;
+
+public class UserPage {
+	public UserPage(){
+		   PageFactory.initElements(Driver.getDriver(), this);
+		   
+		  }  
+		  
+		  @FindBy(linkText="Open New Account")
+		  public WebElement openNewAccount;
+	
+		  
+		  @FindBy(xpath="//select[@id=\"type\"]/option[@value=\"0\"]")
+		  public WebElement selectCheking;
+		  
+		  @FindBy(xpath="//select[@id=\"type\"]/option[@value=\"1\"]")
+		  public WebElement selectSaving;
+		  
+		  @FindBy(xpath="//input[@value=\"Open New Account\"]")
+		  public WebElement createNewAccount;
+		  
+		  @FindBy(linkText="Log Out")
+		  public WebElement logout;
+		  
+		  
+	
+}

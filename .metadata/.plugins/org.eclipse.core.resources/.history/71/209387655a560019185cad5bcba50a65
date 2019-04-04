@@ -1,0 +1,8 @@
+package com.parabank.stepDefinitions;
+
+public class Snippet {
+	public static void main(String[] args) {
+		 Driver.getDriver().close();
+	}
+}
+

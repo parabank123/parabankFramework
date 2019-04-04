@@ -1,0 +1,78 @@
+Feature: Parabank test scenarios
+
+@Test
+Scenario: test user register
+	Given open browser and go to main page
+	When user click on the register link
+	Then user should navigate to register page
+	
+@Test
+Scenario: register a new user
+	Given user is on the register page
+	When user fill the register form
+#| Fields                 | Values              |
+#| First Name             | Tom                 |
+#| Last Name              | Kenny               |
+#| Email Address          | someone@someone.com |
+#| Re-enter Email Address | someone@someone.com |
+#| Password               | Password1           |
+#| Birthdate              | 01                  |	
+	And click on register button
+	Then user should be registered
+	Then user should log out
+	
+
+	
+#@Test
+Scenario: login as customer
+	Given open browser and go to main page
+	When the user logs using "rk056" and "001521" 
+	Then the user should be logged in
+	
+	
+#@Test	
+Scenario: open new checking account
+	Given click on create account
+	And choose checking from dropdown list
+	Then click on open new account link
+	
+	
+#@Test	
+Scenario: open new saving account
+	When click on create account
+	And choose saving from dropdown list
+	Then click on open new account link
+	
+#@Test	
+Scenario Outline: transfer funds from checking account to saving account
+	When click on transfer funds link
+	And user enter transfer "<transfer amount>"
+	Then user choose checking account number from dropdown list
+	Then user choose saving account number from dropdown list
+	Then user click on transfer button
+	Then the amount should be added to saving account
+	
+	
+	Examples: 
+	
+	|transfer amount|
+	|100|
+	|200|
+	|300|
+	|400|
+	|500|
+	
+	
+	
+	Scenario: Make one time Transfer Funds from Savings to Checking with total transferred amount
+	When click on transfer funds link
+	And user enter transfer "500"
+	Then user choose saving account number from dropdown list
+	Then user choose checking account number from dropdown list
+	Then user click on transfer button
+	Then the amount should be added to checking account
+	And checking account balance and saving account balance should be equal
+	
+
+	
+	

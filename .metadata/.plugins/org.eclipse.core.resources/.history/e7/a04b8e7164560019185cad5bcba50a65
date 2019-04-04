@@ -1,0 +1,34 @@
+Feature: Parabank test scenarios
+
+
+Scenario: test user register
+	Given open browser and go to main page
+	When user click on the register link
+	Then user should navigate to register page
+	
+	
+	
+Scenario: register a user
+	Given user is on the register page
+	When user fill the register form
+	And click on register button
+	Then user should be registered 
+	
+Scenario: login as customer
+	Given open browser and go to main page
+	When the user logs using "rkul056" and "001521" 
+	Then the user should be logged in 
+	
+	
+Scenario: open new checking account
+	Given user is on the user page
+	When click on create account
+	And choose checking from dropdown list
+	Then user should be registered 
+	
+	
+	
+	
+	
+	
+	

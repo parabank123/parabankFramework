@@ -1,0 +1,17 @@
+package com.parabank.pages;
+
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+import stepDefinitons.TestCases;
+
+public class HomePage extends TestCases{
+	
+	  public HomePage() {
+		    PageFactory.initElements(TestCases.driver, this);
+		  }  
+		  
+		  @FindBy(name="email")
+		  public WebElement email;
+
+}
